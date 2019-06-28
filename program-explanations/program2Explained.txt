@@ -11,6 +11,7 @@
 224 0x04030200 // STR R3, R0    places R3 (contents of R1) into address of param 0
 228 0x0F000F0E // MOV PC, LR    returns to function call.
 
+// c equivalent of above function
 void swap(int* a, int* b){
 	int temp = *a;
 	*a = *b;
