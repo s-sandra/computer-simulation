@@ -1,0 +1,61 @@
+3C // program is stored beginning at address 0x3C
+3C 0x02000014 // LDI R0, 14   	 R0 has contents of param 0
+40 0x02010005 // LDI R1,  5   	 R1 has contents of param 1
+44 0x0202002B // LDI R2, 2B      R2 has contents of plus (ASCII 43) 
+48 0x0203002D // LDI R3, 2D      R3 has contents of minus (ASCII 45)
+4C 0x0204002A // LDI R4, 2A      R4 has contents of mult (ASCII 42)
+50 0x0205002F // LDI R5, 2F      R5 has contents of div (ASCII 47)
+54 0x02060000 // LDI R6,  0   	 R6 stores result of calculation
+58 0x0F000703 // MOV R7, R3      R7 has current operator (minus)
+5C 0x1000007C // BL 7C        	 address of calculate()
+60 0x0F000702 // MOV R7, R2      R7 has current operator (plus)
+64 0x1000007C // BL 7C        	 address of calculate()
+68 0x0F000705 // MOV R7, R5      R7 has current operator (div)
+6C 0x1000007C // BL 7C        	 address of calculate()
+70 0x0F000704 // MOV R7, R4      R7 has current operator (mult)
+74 0x1000007C // BL 7C        	 address of calculate()
+78 0x0A000078 // B  78         	 finishes by jumping to itself.
+7C 0x09000702 // CMP R7, R2  	 checks if operator is plus
+80 0x0B0000AC // BEQ AC		 	 if plus, go to 0xAC
+84 0x09000703 // CMP R7, R3 	 checks is operator is minus
+88 0x0C000094 // BNE 94			 if not minus, go to 0x94
+8C 0x06060001 // SUB R6, R0, R1  otherwise, subtract R1 from R0
+90 0x0A0000B0 // B B0			 branch to end of function
+94 0x09000704 // CMP R7, R4 	 checks if operator is multiply
+98 0x0C0000A4 // BNE A4		 	 if not multiply, go to 0xA4
+9C 0x07060001 // MUL R6, R0, R1  otherwise, multiply R0 and R1
+A0 0x0A0000B0 // B B0			 branch to end of function
+A4 0x08060001 // DIV R6, R0, R1  divide R0 by R1
+A8 0x0A0000B0 // B B0			 branch to end of function
+AC 0x05060001 // ADD R6, R0, R1  add R1 to R0
+B0 0x04060028 // STR R6, 28 	 store answer in address 28
+B4 0x0F000F0E // MOV PC, LR		 return to address in LR
+
+int calculate(char operation, int operand1, int operand2) {
+    int answer = 0;
+    if(operation == '+'){
+        answer = operand1 + operand2;
+    }
+    else if(operation == '-'){
+        answer = operand1 - operand2;
+    }
+    else if(operation == '*'){
+        answer = operand1 * operand2;
+    }
+    else{
+         answer = operand1 / operand2;
+    }
+    return answer;
+}
+
+int a = 20;
+int b = 5;
+int c = 0;
+char minus = '-';
+char plus = '+';
+char div = '/';
+char mult = '*';
+c = calculate(minus, a, b);
+c = calculate(plus, a, b);
+c = calculate(div, a, b);
+c = calculate(mult, a, b);

@@ -1,0 +1,22 @@
+200 0x200 // program is stored beginning at address 0x200
+200 0x22 // stores param 0
+204 0x33 // stores param 1
+208 0x02000200 // LDI R0, 200   R0 has address of param 0
+20C 0x02010204 // LDI R1, 204   R0 has address of param 1
+210 0x10000218 // BL 218        address of swap()
+214 0x0A000214 // B  214        finishes by jumping to itself.
+218 0x03020000 // LDX R2, [R0]  places contents of R0 address into R2 as temp.
+21C 0x03030001 // LDX R3, [R1]  places contents of R1 address into R3
+220 0x04020204 // STR R2, 200   places R2 (contents of R0) into address of param 1
+224 0x04030200 // STR R3, R0    places R3 (contents of R1) into address of param 0
+228 0x0F000F0E // MOV PC, LR    returns to function call.
+
+void swap(int* a, int* b){
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+int a = 22;
+int b = 33;
+swap(&a, &b);
+
