@@ -31,6 +31,7 @@ AC 0x05060001 // ADD R6, R0, R1  add R1 to R0
 B0 0x04060028 // STR R6, 28 	 store answer in address 28
 B4 0x0F000F0E // MOV PC, LR		 return to address in LR
 
+// c equivalent of above function
 int calculate(char operation, int operand1, int operand2) {
     int answer = 0;
     if(operation == '+'){
